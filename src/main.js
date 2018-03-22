@@ -2,17 +2,15 @@ import bookmarks from './bookmarks.js';
 import index from './index.js';
 import omnibox from './omnibox.js';
 
-console.log("script is loaded");
-console.log("import test : ");
-
-
-
 //1. setup stuf on install
 
 browser.runtime.onInstalled.addListener(loadBms);
 
 //2. init omnibox
 omnibox.init();
+
+//3. init bookmark handlers
+bookmarks.init();
 
 function loadBms(){
     bookmarks.getAll().then(

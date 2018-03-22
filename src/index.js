@@ -1,29 +1,30 @@
 import stringUtils from './stringUtils.js';
 
 var index = new Map();
-var bmMap = {};
+var bmMap = new Map();
 
 export default{
     index : function ( bookmarks ){
-	bmMap = bookmarks;
+	//bmMap = bookmarks;
 	bookmarks.forEach(function (v,k ){
-	    let prefixedIndexes = [];
-	    prefixedIndexes = stringUtils.toIndexable(v.title);
-	    
-	    for ( let t of prefixedIndexes ) {
-		if ( index.has(t) ){
-		    let keys = index.get(t);
-		    keys.push(k);
-		    index.set(t,keys);
-		}
-		else{
-		    let keyArray = [""+k];
-		    index.set(t, keyArray);
+	    if ( ! bmMap.has(k)){
+		bmMap.set(k,v);
+		let prefixedIndexes = [];
+		prefixedIndexes = stringUtils.toIndexable(v.title);
+		
+		for ( let t of prefixedIndexes ) {
+		    if ( index.has(t) ){
+			let keys = index.get(t);
+			keys.push(k);
+			index.set(t,keys);
+		    }
+		    else{
+			let keyArray = [""+k];
+			index.set(t, keyArray);
+		    }
 		}
 	    }
 	});
-	console.log(bookmarks);
-	console.log(index);
     },
     getBMId : function ( key ){
 	let result = [];
@@ -56,5 +57,25 @@ export default{
 	    }
 	}
 	return result;
+    },
+    disindex : function ( BMId ) {
+	if ( bmMap.has(BMId)){
+	    //1. remove from bookmark map
+	    bmMap.delete(BMId);
+
+	    //2. remove from index
+	    index.forEach(function(v,k){
+		let i = v.indexOf(BMId);
+		if ( i !== -1  ){
+		    v = v.splice(i, 1);
+		    if ( v.length > 0 ){
+			index.set(k,v);
+		    }
+		    else{
+			index.delete(k);
+		    }
+		}
+	    });
+	}
     }
 }

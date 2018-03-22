@@ -1,7 +1,9 @@
 /* ---------------------------------------------------------------------
   Fetch bookmarks on install, get new bookmarks, get deleted bookmarks
 -----------------------------------------------------------------------*/
-import md5 from 'blueimp-md5';
+//import md5 from 'blueimp-md5';
+import index from './index.js';
+
 
 export default {
     getAll : async function getAll(){
@@ -14,22 +16,14 @@ export default {
 	catch(err){
 	    console.log(`fugg ${err}`);
 	}
+    },
+    init : function(){
+	browser.bookmarks.onCreated.addListener(indexBm);
+	browser.bookmarks.onRemoved.addListener(disindexBm);
+	//browser.bookmarks.onChanged.addListener();
     }
 
 }
-
-
-/*export default async function getAll(){
-    try{
-	const bmRootArray = await browser.bookmarks.getTree();
-	let bmRoot = bmRootArray[0];
-	let result = walkBmTree(bmRoot);
-	return result;
-    }
-    catch(err){
-	console.log(`fugg ${err}`);
-    }
-}*/
 
 
 function walkBmTree ( bmNode ) {
@@ -47,10 +41,28 @@ function walkBmTree ( bmNode ) {
 	bm.title = bmNode.title;
 	bm.url = bmNode.url;
 	bm.date = bmNode.dateAdded;
-	bm.id = md5 ( bm.url + bm.title );
+	bm.id = bmNode.id;//getBmId(bm.url, bm.title);
 	bmMap.set(bm.id,bm);
     }
     return bmMap;
 }
 
-//export { getAll };
+/*function getBmId ( url, title ){
+    return md5 ( url + title );
+}*/
+
+function indexBm(id, bookmark){
+    let bm = {};
+    let bmMap = new Map();
+    bm.title = bookmark.title;
+    bm.url = bookmark.url;
+    bm.date = bookmark.dateAdded;
+    bm.id = id;
+    bmMap.set(bm.id,bm);
+    index.index(bmMap);
+}
+
+function disindexBm(id, info){
+    let bmId = id;
+    index.disindex(bmId);
+}
