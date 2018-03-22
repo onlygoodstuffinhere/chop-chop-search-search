@@ -1,0 +1,18 @@
+{
+  "manifest_version": 2,
+  "name": "cc search",
+  "version": "0.0.1",
+  "description": "Chop chop's search search",
+    "icons": {
+	"16": "pics/icon-16x16.png",
+	"48": "pics/icon-48x48.png"
+  },
+  "permissions": ["bookmarks"],
+  "background": {
+      "scripts": ["dist/ezsrc.js"]
+  },
+  
+  "omnibox": {
+      "keyword": "cc"
+  }
+}
