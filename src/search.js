@@ -1,6 +1,7 @@
 import stringUtils from './stringUtils.js';
 import index from './index.js';
 
+var levenshteinTreshold = 0.65;
 
 export default {
     queryToBookmarks: function( query ){
@@ -22,7 +23,7 @@ function sortBookmarks(bookmarkResults, query){
 	for ( let tk of compQuery){
 	    for (let bt of compBm ){
 		let gScore = stringUtils.levenshtein(tk,bt);
-		if ( gScore >= 0.85 ) {
+		if ( gScore >= levenshteinTreshold ) {
 		    hitScore ++;
 		}
 	    }
