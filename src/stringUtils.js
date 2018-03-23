@@ -6,6 +6,7 @@ import doubleMetaphone from 'double-metaphone';
 
 // radix tree min str length
 var rTreeMinLength = 2;
+var kwMinLength = 4;
 
 export default {
     toLowerCase : lowerCase,
@@ -41,7 +42,8 @@ export default {
 	});
 	prefixedIndexes = Array.from(new Set(prefixedIndexes));
 	return prefixedIndexes;
-    }
+    },
+    urlToIndexable : urlToTokens
 }
 
 
@@ -61,10 +63,13 @@ function lowerCase( str ){
     return str.toLowerCase();
 }
 function tokenizer( str ){
-    return str.split(/\W/);
+    return str.split(/[\W_]/);
 }
 function isNotEmpty( str ) {
     return str !== "";
+}
+function tokenIsBigEnough(str){
+    return str.length >= kwMinLength;
 }
 /*
   Generalized levenshtein dist 
@@ -78,4 +83,25 @@ function gld (stra, strb){
 //convenience function
 function lcTokenizeFilter(str){
     return tokenizer(lowerCase(str)).filter(isNotEmpty);
+}
+
+function urlToTokens ( urlStr ) {
+    let url = new URL(lowerCase(urlStr));
+    let domain = url.hostname;
+    let path = url.pathname;
+    let tokens = tokenizer ( domain );
+    tokens =tokens.concat( tokenizer (path ));
+    tokens = tokens.filter(tokenIsBigEnough);
+
+    let metaphoned = [];
+    tokens.forEach(function(token){
+	metaphoned = metaphoned.concat(doubleMetaphone(token));
+    });
+    metaphoned = Array.from(new Set(metaphoned));
+    let prefixedIndexes = [];
+    metaphoned.forEach(function(mtp){
+	prefixedIndexes = prefixedIndexes.concat(radixTree(mtp));
+    });
+    prefixedIndexes = Array.from(new Set(prefixedIndexes));
+    return prefixedIndexes;
 }

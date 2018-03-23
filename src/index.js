@@ -11,7 +11,8 @@ export default{
 		bmMap.set(k,v);
 		let prefixedIndexes = [];
 		prefixedIndexes = stringUtils.toIndexable(v.title);
-		
+		prefixedIndexes = prefixedIndexes.concat(stringUtils.urlToIndexable(v.url));
+		prefixedIndexes = Array.from(new Set(prefixedIndexes));
 		for ( let t of prefixedIndexes ) {
 		    if ( index.has(t) ){
 			let keys = index.get(t);

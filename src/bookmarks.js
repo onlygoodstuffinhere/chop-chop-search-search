@@ -20,7 +20,7 @@ export default {
     init : function(){
 	browser.bookmarks.onCreated.addListener(indexBm);
 	browser.bookmarks.onRemoved.addListener(disindexBm);
-	//browser.bookmarks.onChanged.addListener();
+	//browser.bookmarks.onChanged.addListener(); //TODO 
     }
 
 }
@@ -36,12 +36,8 @@ function walkBmTree ( bmNode ) {
 	    }
 	}
     }
-    else if ( bmNode.type === "bookmark" ){
-	let bm = {};
-	bm.title = bmNode.title;
-	bm.url = bmNode.url;
-	bm.date = bmNode.dateAdded;
-	bm.id = bmNode.id;//getBmId(bm.url, bm.title);
+    else if ( bmNode.type === "bookmark" && bmNode.url.startsWith("http")){
+	let bm = bmNodeToBm(bmNode);
 	bmMap.set(bm.id,bm);
     }
     return bmMap;
@@ -52,12 +48,8 @@ function walkBmTree ( bmNode ) {
 }*/
 
 function indexBm(id, bookmark){
-    let bm = {};
+    let bm = bmNodeToBm(bookmark);
     let bmMap = new Map();
-    bm.title = bookmark.title;
-    bm.url = bookmark.url;
-    bm.date = bookmark.dateAdded;
-    bm.id = id;
     bmMap.set(bm.id,bm);
     index.index(bmMap);
 }
@@ -65,4 +57,13 @@ function indexBm(id, bookmark){
 function disindexBm(id, info){
     let bmId = id;
     index.disindex(bmId);
+}
+
+function bmNodeToBm( bmNode ){
+    return {
+	"title": bmNode.title,
+	"url": bmNode.url,
+	"date": bmNode.dateAdded,
+	"id": bmNode.id	
+    }
 }
