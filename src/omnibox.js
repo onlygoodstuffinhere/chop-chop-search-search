@@ -36,17 +36,17 @@ function srcInputListener(text, suggest){
 	suggest(emptySuggestion());
 	return ;
     }
-    let results = search.queryToBookmarks(text);
-    let suggestions = results.map(function (bm) {
-	return {
-	    "content": bm.url,
-	    "description": bm.title
-	};
+    search.queryToBookmarks(text).then(function(results){
+	let suggestions = results.map(function (bm) {
+	    return {
+		"content": bm.url,
+		"description": bm.title
+	    };
+	});
+	if( suggestions.length === 0 ){
+	    suggest(emptySuggestion());
+	    return;
+	}
+	suggest(suggestions);
     });
-    if( suggestions.length === 0 ){
-	suggest(emptySuggestion());
-	return;
-    }
-    suggest(suggestions);
-    
 }

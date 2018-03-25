@@ -7,7 +7,7 @@
 	"16": "pics/icon-16x16.png",
 	"48": "pics/icon-48x48.png"
   },
-  "permissions": ["bookmarks"],
+    "permissions": ["bookmarks", "storage"],
   "background": {
       "scripts": ["dist/ezsrc.js"]
   },

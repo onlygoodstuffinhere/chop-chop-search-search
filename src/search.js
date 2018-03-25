@@ -4,13 +4,28 @@ import index from './index.js';
 var levenshteinTreshold = 0.65;
 
 export default {
-    queryToBookmarks: function( query ){
+    queryToBookmarks: async function( query ){
 	let srcIndices = stringUtils.toSearchable(query);
-	let bmIds = index.getBMId(srcIndices);
-	let bookmarks = index.getBM(bmIds);
+	let bmIds = await index.getBMId(srcIndices);
+	console.log("bm ids");
+	console.log(bmIds);
+	let bookmarks = await index.getBM(bmIds);
 	bookmarks = Array.from(new Set(bookmarks));
 	bookmarks = sortBookmarks(bookmarks, query);
 	return bookmarks;
+	/*let srcIndices = stringUtils.toSearchable(query);
+	index.getBMId(srcIndices).then(bmIds=>{
+	    console.log("bm ids");
+	    console.log(bmIds);
+	    let bookmarks = await index.getBM(bmIds);
+	    bookmarks = Array.from(new Set(bookmarks));
+	    bookmarks = sortBookmarks(bookmarks, query);
+	    return bookmarks;
+	});*//*
+	let bookmarks = index.getBM(bmIds);
+	bookmarks = Array.from(new Set(bookmarks));
+	bookmarks = sortBookmarks(bookmarks, query);
+	return bookmarks;*/
     }
 }
 
