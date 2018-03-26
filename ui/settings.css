@@ -1,0 +1,38 @@
+h2{
+    /*color: blue;*/
+}
+#submitButton{
+    position: relative;
+    left: 80%;
+}
+body{
+    position: relative;
+    width: 75%;
+}
+#submitDiv{
+    position: relative;
+    top: 8px;
+}
+p::first-letter{
+    margin-left: 8px;
+}
+.formQuestion{
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 1em;
+    /*margin-top: 0.5em;*/
+}
+ul{
+    list-style-type: none;
+}
+h4{
+    font-size: 20px;
+    font-weight: 300;
+}
+h2{
+    font-size: 22px;
+    font-weight: 300;
+}
+li{
+    margin-bottom: 2em;
+}

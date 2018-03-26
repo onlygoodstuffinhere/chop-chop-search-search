@@ -10,9 +10,12 @@
     "permissions": ["bookmarks", "storage"],
   "background": {
       "scripts": ["dist/ezsrc.js"]
-  },
-  
+  },  
   "omnibox": {
       "keyword": "cc"
+  },
+  "options_ui": {
+      "page": "ui/settings.html",
+      "browser_style": true
   }
 }
