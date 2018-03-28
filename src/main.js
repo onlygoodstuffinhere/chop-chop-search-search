@@ -3,10 +3,11 @@ import index from './index.js';
 import omnibox from './omnibox.js';
 import storage from './storageDao.js';
 import settings from './settings.js';
+import history from './history.js';
 
 //1. setup stuf on install
 
-browser.runtime.onInstalled.addListener(loadBms);
+browser.runtime.onInstalled.addListener(loadBrowsingData);
 
 settings.init();
 
@@ -16,19 +17,26 @@ omnibox.init();
 
 //3. init bookmark handlers
 bookmarks.init();
+history.init();
 
 //4. clear storage
 storage.init();
 
-function loadBms(){
+function loadBrowsingData(){
     bookmarks.getAll().then(
 	function(bms){
 	    //1 : index bms
-	    index.index(bms);//.then(res=>storage.getAll("test","test"));
+	    index.index(bms);
 
 
 	}
-    );    
+    );
+    history.getAll().then(
+	function(pageMap){
+	    index.index(pageMap);
+	}
+    );
+    
 }
 
 

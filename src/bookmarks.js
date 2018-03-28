@@ -6,6 +6,20 @@ import index from './index.js';
 
 
 export default {
+    /*
+      Returns map of all bookmarks
+      bookmark is an object like this :
+      {
+	"type": "bookmark",
+	"title": <string>,
+	"url": <string>,
+	"date": <int>,
+	"id": <string>	
+	}
+      @return : Map[id,bookmark]
+    */
+
+    //TODO : load settings, take settings into account
     getAll : async function getAll(){
 	try{
 	    const bmRootArray = await browser.bookmarks.getTree();
@@ -15,17 +29,24 @@ export default {
 	}
 	catch(err){
 	    console.log(`fugg ${err}`);
+	    return new Map();
 	}
     },
+    /*
+      Registers callbacks for bookmark creation, deletion (and modification, comming soon) events
+     */
     init : function(){
 	browser.bookmarks.onCreated.addListener(indexBm);
 	browser.bookmarks.onRemoved.addListener(disindexBm);
 	//browser.bookmarks.onChanged.addListener(); //TODO 
     }
 
-}
+};
 
-
+/*
+  Called recursively to go through bookmark tree,
+  returns map[id, bookmark]
+*/
 function walkBmTree ( bmNode ) {
     let bmMap = new Map();
     if ( bmNode.type === "folder" ) {
@@ -47,6 +68,10 @@ function walkBmTree ( bmNode ) {
     return md5 ( url + title );
 }*/
 
+/*
+  Handles bookmark creation events :
+  Parses ff bookmark, calls index script to index bm
+*/
 function indexBm(id, bookmark){
     let bm = bmNodeToBm(bookmark);
     let bmMap = new Map();
@@ -54,16 +79,25 @@ function indexBm(id, bookmark){
     index.index(bmMap);
 }
 
+/*
+  Handles bookmark deletion event
+  Calls index script to disindex bm
+*/
 function disindexBm(id, info){
-    let bmId = id;
+    let bmId = "bm_"+id;
     index.disindex(bmId);
 }
 
+/*
+  Parses browser bookmark object
+*/
 function bmNodeToBm( bmNode ){
     return {
+	"type": "bookmark", //we need to diferentiate bookmarks and other indexed pages
+	                    // like history
 	"title": bmNode.title,
 	"url": bmNode.url,
 	"date": bmNode.dateAdded,
-	"id": bmNode.id	
-    }
+	"id": "bm_"+bmNode.id	
+    };
 }

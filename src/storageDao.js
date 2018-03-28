@@ -9,7 +9,7 @@ export default{
     init: setup, //TODO: delete if no need for this
     has: contains,
     getAll: findAll
-}
+};
 
 async function store( type, key, val){
     let k = String.raw`${type}.${key}`;

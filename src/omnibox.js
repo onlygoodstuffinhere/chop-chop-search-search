@@ -9,7 +9,7 @@ export default {
 	);
     }
 
-}
+};
 
 function inputEntered(url, disposition){
     switch (disposition) {
@@ -28,19 +28,18 @@ function emptySuggestion(){
     return {
 	"content": "",
 	"description": "Sry, no results. Please type at lest 3 characters."
-    }
+    };
 }
 function srcInputListener(text, suggest){
-    console.log ( "searching for query : "+text);
     if ( text.length < 3 ) {
 	suggest(emptySuggestion());
 	return ;
     }
-    search.queryToBookmarks(text).then(function(results){
-	let suggestions = results.map(function (bm) {
+    search.queryToPages(text).then(function(results){
+	let suggestions = results.map(function (page) {
 	    return {
-		"content": bm.url,
-		"description": bm.title
+		"content": page.url,
+		"description": page.title
 	    };
 	});
 	if( suggestions.length === 0 ){

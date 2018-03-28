@@ -44,7 +44,7 @@ export default {
 	return prefixedIndexes;
     },
     urlToIndexable : urlToTokens
-}
+};
 
 
 function radixTree ( str ) {

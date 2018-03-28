@@ -10,14 +10,14 @@
 */
 import storage from './storageDao.js';
 
-
 export default{
 
     init: function(){
 	console.log("background settings handler here");
 	browser.runtime.onMessage.addListener(handleMsg);
-    }
-}
+    },
+    get: getSettings
+};
 
 function handleMsg ( message, sender, sendResponse ){
     console.log("backround script, received message : ");
@@ -42,8 +42,6 @@ function handleMsg ( message, sender, sendResponse ){
 }
 
 async function getSettings(){
-    //TODO : load settings from localstorage
-    //default settings :
     let settings = await storage.get("settings", "settings");
     console.log("settings from local storage : ");
     console.log(settings);
@@ -61,11 +59,8 @@ async function getSettings(){
 	console.log(settings);
 	return settings;
     }
-    
-    
 }
 
 function setSettings(settings){
-    //TODO save settings in local storage
     storage.set("settings", "settings", settings);
 }
