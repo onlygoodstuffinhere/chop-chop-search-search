@@ -30,7 +30,8 @@ export default{
 	browser.history.onVisited.addListener(handleVisited);
 	browser.history.onVisitRemoved.addListener(handleRemoved);
 	browser.history.onTitleChanged.addListener(handleTitleChanged);
-    }
+    },
+    filterByDate: filterHistoryByDaterange
 };
 
 async function loadHistory(){
@@ -83,11 +84,9 @@ async function loadHistory(){
 	}
 	return pageMap;
     }
-    else{// settings say we don't use browsing history
+    else{// settings says we don't use browsing history
 	return new Map();
     }
-
-    //TODO : don't forget to prefix page id with his_
 }
 
 function parseHistoryItem(historyItem){
@@ -163,7 +162,53 @@ function handleTitleChanged(changedObj){
 }
 
 function indexHistory (historyItem ){
-    let toIndex = new Map();
-    toIndex.set(historyItem.id, historyItem);
-    index.index(toIndex);
+    if ( ! filterHistoryItem(historyItem) ){
+	return;
+    }
+    
+    settingsService.get().then(function(settings){
+	if ( settings.indexHistory === true ){
+	    let toIndex = new Map();
+	    toIndex.set(historyItem.id, historyItem);
+	    index.index(toIndex);
+	}
+    });
 } 
+
+/*
+  Returns history item ids to remove based off date range
+  date range one of : <"forever"/"7d"/"24h"/"session">
+*/
+
+function filterHistoryByDaterange(historyArray, dateRange){
+    if ( dateRange === "forever"){
+	return [];
+    }
+    let results = [];
+    let now = new Date();
+    for ( let hist of historyArray ){
+	switch (dateRange) {
+	case "7d":{
+	    if( (now - hist.date ) > 604800000 ){
+		results.push(hist.id);
+	    }
+	    break;
+	}
+	case "24h": {
+	    if( (now - hist.date ) > 86400000 ){
+		results.push(hist.id);
+	    }
+	    break;
+	}
+	case "session": {
+	    //TODO: handle session stuff
+	    let sessionStart = now - 86400000; //change this
+	    if( (now - hist.date ) > ( now - sessionStart ) ){
+		results.push(hist.id);
+	    }
+	    break;
+	}
+	}
+    }
+    return results;
+}

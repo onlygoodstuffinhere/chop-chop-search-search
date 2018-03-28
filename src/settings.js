@@ -9,6 +9,9 @@
   }
 */
 import storage from './storageDao.js';
+import index from './index.js';
+import bookmarks from './bookmarks.js';
+import history from './history.js';
 
 export default{
 
@@ -20,13 +23,9 @@ export default{
 };
 
 function handleMsg ( message, sender, sendResponse ){
-    console.log("backround script, received message : ");
-    console.log(message);
     let cmd = message.cmd;
     switch ( cmd ){
     case "set-settings": {
-	console.log("Received settings from index page, saving them to local storage now");
-	console.log(message.settings);
 	setSettings(message.settings);
 	sendResponse({});
 	break;
@@ -43,24 +42,79 @@ function handleMsg ( message, sender, sendResponse ){
 
 async function getSettings(){
     let settings = await storage.get("settings", "settings");
-    console.log("settings from local storage : ");
-    console.log(settings);
     if ( settings == undefined ){
 	let defaultSettings = {
 	    "indexBm" : true,
 	    "indexHistory": true,
 	    "historyDuration": "forever"
 	};
-	console.log("no settings in local storage, returning defaults");
 	return defaultSettings;
     }
     else{
-	console.log("settings from local storage : ");
-	console.log(settings);
 	return settings;
     }
 }
 
 function setSettings(settings){
-    storage.set("settings", "settings", settings);
+    // trigger reindexing and purging of pages
+    getSettings().then(function (oldSettings) {
+	// persist new settings first because indexing logic
+	// looks at settings again to know wether to persist stuff
+	// or not :/
+	storage.set("settings", "settings", settings).then(function(){
+	    //compare old settings to new settings
+	    console.log("old settings");
+	    console.log(oldSettings);
+	    console.log("new settings");
+	    console.log(settings);
+	    if ( oldSettings.indexBm !== settings.indexBm ){
+		if ( settings.indexBm ){
+		    //index bookmarks
+		    console.log("index bookmarks");
+		    bookmarks.getAll().then(function (bms){
+			index.index(bms);
+		    });
+		}
+		else{
+		    //disindex bookmarks
+		    console.log("disindex bookmarks");
+		    index.disindexByType("bookmark");
+		}
+	    }
+	    if ( oldSettings.indexHistory !== settings.indexHistory ){
+		if ( settings.indexHistory ){
+		    //index history
+		    console.log("index history");
+		    history.getAll().then(function(hist){
+			console.log("full hist (should be map)");
+			console.log(hist);
+			index.index(hist);
+		    });
+		}
+		else{
+		    //disindex history
+		    console.log("disindex history");
+		    index.disindexByType("history");
+		}
+	    }
+	    else if (settings.indexHistory &&
+		     ( oldSettings.historyDuration !== settings.historyDuration ) ){
+		// disindex relevant parts of browsing history
+		console.log("disindex / reindex parts of history");
+		history.getAll().then(function(hist){
+		    // index history, in case new settings allow for more pages
+		    // ( will look at settings and not index wrong stuff so it's cool)
+		    index.index(hist);
+		    // remove history items that's out of range
+		    index.getAllByType("history").then(function(hist){
+			//get history item ids to remove
+			let idsToDel = history.filterByDate(hist, settings.historyDuration );
+			index.disindex(idsToDel);
+		    });
+		});
+		
+	    }
+	});
+	 
+    });
 }

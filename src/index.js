@@ -52,8 +52,8 @@ async function removeByType( type ){
     let allPages = await storage.getAll("page");
     let idArray = [];
     for ( let page of allPages ){
-	if (page.type === type ){
-	    idArray.push(page.id);
+	if (page.val.type === type ){
+	    idArray.push(page.val.id);
 	}
     }
     await remove(idArray);
@@ -117,9 +117,7 @@ async function remove( pageId ) {
   Index pages to make them available to search
   @param : pages
            Map [ id, page], page being an object : 
-	   /*
-      Returns map of all bookmarks
-      bookmark is an object like this :
+
       {
 	"type": <"bookmark"/"history">,
 	"title": <string>,
@@ -131,7 +129,8 @@ async function remove( pageId ) {
 async function indexPages( pages ){
     pages.forEach(async function (v,k ){
 	let hasPage = await storage.has("page", k);
-	
+	console.log("indexing page : ");
+	console.log(v);
 	if ( hasPage === false ){
 	    // store page in pageId - page index
 	    await storage.set("page", k, v);

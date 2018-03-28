@@ -3,7 +3,7 @@
 -----------------------------------------------------------------------*/
 //import md5 from 'blueimp-md5';
 import index from './index.js';
-
+import settingsService from './settings.js';
 
 export default {
     /*
@@ -18,17 +18,21 @@ export default {
 	}
       @return : Map[id,bookmark]
     */
-
-    //TODO : load settings, take settings into account
     getAll : async function getAll(){
-	try{
-	    const bmRootArray = await browser.bookmarks.getTree();
-	    let bmRoot = bmRootArray[0];
-	    let result = walkBmTree(bmRoot);
-	    return result;
+	let settings = await settingsService.get();
+	if (settings.indexBm ){
+	    try{
+		const bmRootArray = await browser.bookmarks.getTree();
+		let bmRoot = bmRootArray[0];
+		let result = walkBmTree(bmRoot);
+		return result;
+	    }
+	    catch(err){
+		console.log(`Failed to get bookmarks : ${err}`);
+		return new Map();
+	    }
 	}
-	catch(err){
-	    console.log(`fugg ${err}`);
+	else{
 	    return new Map();
 	}
     },
@@ -71,12 +75,17 @@ function walkBmTree ( bmNode ) {
 /*
   Handles bookmark creation events :
   Parses ff bookmark, calls index script to index bm
+  if settings allow bookmark indexing
 */
 function indexBm(id, bookmark){
-    let bm = bmNodeToBm(bookmark);
-    let bmMap = new Map();
-    bmMap.set(bm.id,bm);
-    index.index(bmMap);
+    settingsService.get().then(function (settings){
+	if ( settings.indexBm ) {
+	    let bm = bmNodeToBm(bookmark);
+	    let bmMap = new Map();
+	    bmMap.set(bm.id,bm);
+	    index.index(bmMap);
+	}	
+    });
 }
 
 /*

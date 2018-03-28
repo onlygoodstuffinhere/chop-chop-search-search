@@ -11,7 +11,6 @@ browser.runtime.onInstalled.addListener(loadBrowsingData);
 
 settings.init();
 
-
 //2. init omnibox
 omnibox.init();
 
@@ -38,5 +37,3 @@ function loadBrowsingData(){
     );
     
 }
-
-
