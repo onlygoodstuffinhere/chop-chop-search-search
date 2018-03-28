@@ -5,6 +5,7 @@ import settingsService from "./settings.js";
 import index from "./index.js";
 
 var incompletePages = new Map();
+var sessionStart;
 
 export default{
     /*
@@ -31,8 +32,18 @@ export default{
 	browser.history.onVisitRemoved.addListener(handleRemoved);
 	browser.history.onTitleChanged.addListener(handleTitleChanged);
     },
-    filterByDate: filterHistoryByDaterange
+    filterByDate: filterHistoryByDaterange,
+    getSession: getSessionDate,
+    setSession: setSessionDate
 };
+
+function getSessionDate(){
+    return sessionStart;
+}
+
+function setSessionDate( date ){
+    sessionStart = date;
+}
 
 async function loadHistory(){
     // get settings to decide what pages to fetch
@@ -59,8 +70,8 @@ async function loadHistory(){
 	}
 	case "session":{
 	    //TODO: record session start time
-	    console.log("TODO : keep track of session time");
-	    startDate = new Date('August 19, 1975 23:15:30');
+	    //console.log("TODO : keep track of session time");
+	    startDate = sessionStart;//new Date('August 19, 1975 23:15:30');
 	    break;
 	}
 	}
@@ -73,8 +84,6 @@ async function loadHistory(){
 	};
 	
 	let history = await browser.history.search(query);
-	console.log("history :");
-	console.log(history);
 	let pageMap = new Map();
 	for (let p of history ){
 	    if ( filterHistoryItem(p) ){
@@ -202,7 +211,7 @@ function filterHistoryByDaterange(historyArray, dateRange){
 	}
 	case "session": {
 	    //TODO: handle session stuff
-	    let sessionStart = now - 86400000; //change this
+	    //let sessionStart = now - 86400000; //change this
 	    if( (now - hist.date ) > ( now - sessionStart ) ){
 		results.push(hist.id);
 	    }

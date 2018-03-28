@@ -129,8 +129,6 @@ async function remove( pageId ) {
 async function indexPages( pages ){
     pages.forEach(async function (v,k ){
 	let hasPage = await storage.has("page", k);
-	console.log("indexing page : ");
-	console.log(v);
 	if ( hasPage === false ){
 	    // store page in pageId - page index
 	    await storage.set("page", k, v);

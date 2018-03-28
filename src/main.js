@@ -16,6 +16,8 @@ omnibox.init();
 
 //3. init bookmark handlers
 bookmarks.init();
+//init session time
+history.setSession(new Date());
 history.init();
 
 //4. clear storage
@@ -26,8 +28,6 @@ function loadBrowsingData(){
 	function(bms){
 	    //1 : index bms
 	    index.index(bms);
-
-
 	}
     );
     history.getAll().then(
