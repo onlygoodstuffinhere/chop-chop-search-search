@@ -30,6 +30,8 @@ function loadBrowsingData(){
 	    index.index(bms);
 	}
     );
+    //TODO only do this loading stuff if data is not in storage
+    // validate freshness of bms
     history.getAll().then(
 	function(pageMap){
 	    index.index(pageMap);

@@ -129,9 +129,11 @@ async function remove( pageId ) {
 async function indexPages( pages ){
     pages.forEach(async function (v,k ){
 	let hasPage = await storage.has("page", k);
+	// store page in pageId - page index
+	// update if already there (updates visit count and last visit date
+	// on history items)
+	await storage.set("page", k, v);
 	if ( hasPage === false ){
-	    // store page in pageId - page index
-	    await storage.set("page", k, v);
 	    // generate search index tokens
 	    let prefixedIndexes = [];
 	    prefixedIndexes = stringUtils.toIndexable(v.title);

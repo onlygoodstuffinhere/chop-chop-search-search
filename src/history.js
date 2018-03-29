@@ -210,8 +210,6 @@ function filterHistoryByDaterange(historyArray, dateRange){
 	    break;
 	}
 	case "session": {
-	    //TODO: handle session stuff
-	    //let sessionStart = now - 86400000; //change this
 	    if( (now - hist.date ) > ( now - sessionStart ) ){
 		results.push(hist.id);
 	    }

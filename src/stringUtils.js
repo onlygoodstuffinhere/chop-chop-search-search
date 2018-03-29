@@ -6,7 +6,7 @@ import doubleMetaphone from 'double-metaphone';
 
 // radix tree min str length
 var rTreeMinLength = 2;
-var kwMinLength = 4;
+var kwMinLength = 3;
 
 export default {
     toLowerCase : lowerCase,
@@ -43,7 +43,8 @@ export default {
 	prefixedIndexes = Array.from(new Set(prefixedIndexes));
 	return prefixedIndexes;
     },
-    urlToIndexable : urlToTokens
+    urlToIndexable : urlToIndexableTokens,
+    urlToTokens: urlTokenizer
 };
 
 
@@ -85,23 +86,32 @@ function lcTokenizeFilter(str){
     return tokenizer(lowerCase(str)).filter(isNotEmpty);
 }
 
-function urlToTokens ( urlStr ) {
+function urlTokenizer(urlStr){
     let url = new URL(lowerCase(urlStr));
     let domain = url.hostname;
     let path = url.pathname;
     let tokens = tokenizer ( domain );
     tokens =tokens.concat( tokenizer (path ));
     tokens = tokens.filter(tokenIsBigEnough);
+    tokens = Array.from(new Set(tokens));
+    return tokens;
+}
 
+
+function urlToIndexableTokens ( urlStr ) {
+    let tokens = urlTokenizer(urlStr);
+    
     let metaphoned = [];
     tokens.forEach(function(token){
 	metaphoned = metaphoned.concat(doubleMetaphone(token));
     });
     metaphoned = Array.from(new Set(metaphoned));
+    
     let prefixedIndexes = [];
     metaphoned.forEach(function(mtp){
 	prefixedIndexes = prefixedIndexes.concat(radixTree(mtp));
     });
     prefixedIndexes = Array.from(new Set(prefixedIndexes));
+    
     return prefixedIndexes;
 }
