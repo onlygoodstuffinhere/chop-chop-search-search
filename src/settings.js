@@ -12,6 +12,7 @@ import storage from './storageDao.js';
 import index from './index.js';
 import bookmarks from './bookmarks.js';
 import history from './history.js';
+import tabs from './tabs.js';
 
 export default{
 
@@ -45,6 +46,7 @@ async function getSettings(){
 	let defaultSettings = {
 	    "indexBm" : true,
 	    "indexHistory": true,
+	    "indexTabs": true,
 	    "historyDuration": "forever"
 	};
 	return defaultSettings;
@@ -74,6 +76,17 @@ function setSettings(settings){
 		    index.disindexByType("bookmark");
 		}
 	    }
+	    if ( oldSettings.indexTabs !== settings.indexTabs ){
+		if ( settings.indexTabs ){
+		    //TODO
+		    tabs.getAll().then(function(tbs){
+			index.index(tbs);
+		    });
+		}
+		else{
+		    index.disindexByType("tab");
+		}
+	    } 
 	    if ( oldSettings.indexHistory !== settings.indexHistory ){
 		if ( settings.indexHistory ){
 		    //index history

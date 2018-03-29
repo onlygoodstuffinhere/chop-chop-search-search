@@ -34,7 +34,9 @@ function displaySettings(settings){
     bmCheckbox.checked = settings.indexBm;
     var historyCheckbox = document.getElementById("indexHistory");
     historyCheckbox.checked = settings.indexHistory;
-
+    var tabsCheckBox = document.getElementById("indexTabs");
+    tabsCheckBox.checked = settings.indexTabs;
+    
     if ( settings.indexHistory ){
 	switch ( settings.historyDuration ){
 	case "forever":{
@@ -67,7 +69,9 @@ function parseSettings () {
     settings.indexBm = bmCheckbox.checked;
     var historyCheckbox = document.getElementById("indexHistory");
     settings.indexHistory = historyCheckbox.checked;
-
+    var tabsCheckBox = document.getElementById("indexTabs");
+    settings.indexTabs = tabsCheckBox.checked;
+    
     if ( settings.indexHistory ){
 	if ( document.getElementById("historyDurationForever").checked === true ){
 	    settings.historyDuration = "forever";

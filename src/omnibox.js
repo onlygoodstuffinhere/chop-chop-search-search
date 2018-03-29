@@ -14,16 +14,31 @@ export default {
 function inputEntered(url, disposition){
     switch (disposition) {
     case "currentTab":
-	browser.tabs.update({url});
+	openTab(url, true);
 	break;
     case "newForegroundTab":
-	browser.tabs.create({url});
+	openTab(url, true);
 	break;
     case "newBackgroundTab":
-	browser.tabs.create({url, active: false});
+	openTab(url, false);
 	break;
     }
 }
+
+function openTab ( url, active ){
+    browser.tabs.query({"url": url}).then(function(openedTabs){
+	if ( openedTabs.length > 0 ){
+	    let tabId = openedTabs[0].id;
+	    browser.tabs.update(tabId, {
+		"active": true
+	    });
+	}
+	else{
+	    browser.tabs.create({url, active: active});
+	}
+    });
+}
+
 function emptySuggestion(){
     return {
 	"content": "",

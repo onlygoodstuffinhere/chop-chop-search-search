@@ -4,6 +4,8 @@ import omnibox from './omnibox.js';
 import storage from './storageDao.js';
 import settings from './settings.js';
 import history from './history.js';
+import tabs from './tabs.js';
+
 
 //1. setup stuf on install
 
@@ -20,8 +22,11 @@ bookmarks.init();
 history.setSession(new Date());
 history.init();
 
+tabs.init();
+
 //4. clear storage
 storage.init();
+//index.disindexByType("tab"); //enable this once we start to persist storage
 
 function loadBrowsingData(){
     bookmarks.getAll().then(
@@ -37,5 +42,9 @@ function loadBrowsingData(){
 	    index.index(pageMap);
 	}
     );
-    
+
+    tabs.getAll().then(function(tabs){
+	index.index(tabs);
+    });
 }
+
