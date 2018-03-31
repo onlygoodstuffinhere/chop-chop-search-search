@@ -1,7 +1,6 @@
 /* ---------------------------------------------------------------------
   Fetch bookmarks on install, get new bookmarks, get deleted bookmarks
 -----------------------------------------------------------------------*/
-//import md5 from 'blueimp-md5';
 import index from './index.js';
 import settingsService from './settings.js';
 
@@ -66,10 +65,6 @@ function walkBmTree ( bmNode ) {
     }
     return bmMap;
 }
-
-/*function getBmId ( url, title ){
-    return md5 ( url + title );
-}*/
 
 /*
   Handles bookmark creation events :
