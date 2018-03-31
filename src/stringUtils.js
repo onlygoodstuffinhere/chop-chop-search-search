@@ -3,6 +3,8 @@
 */
 import lvs from 'fast-levenshtein';
 import doubleMetaphone from 'double-metaphone';
+import parseDomain from 'parse-domain';
+
 
 // radix tree min str length
 var rTreeMinLength = 2;
@@ -70,7 +72,7 @@ function isNotEmpty( str ) {
     return str !== "";
 }
 function tokenIsBigEnough(str){
-    return str.length >= kwMinLength;
+    return str !== undefined && str !== null &&  str.length >= kwMinLength;
 }
 /*
   Generalized levenshtein dist 
@@ -90,10 +92,27 @@ function urlTokenizer(urlStr){
     let url = new URL(lowerCase(urlStr));
     let domain = url.hostname;
     let path = url.pathname;
+
+    //remove subdomain and tlds, handles weirdo tlds
+    let parsedDomain = parseDomain(domain); 
+    domain = parsedDomain.domain;
+
+    //remove file extension
+    let urlArray = path.split(".");
+    if( urlArray.length === 1 || ( urlArray[0] === "" && urlArray.length === 2 ) ) {
+	//no file extension
+	path = urlArray[0];
+    }
+    else{
+	urlArray.pop();
+	path = urlArray.reduce((a,b)=> a+b );
+    }
+    
     let tokens = tokenizer ( domain );
     tokens =tokens.concat( tokenizer (path ));
     tokens = tokens.filter(tokenIsBigEnough);
     tokens = Array.from(new Set(tokens));
+    
     return tokens;
 }
 

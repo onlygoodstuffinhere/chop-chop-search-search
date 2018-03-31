@@ -1,4 +1,8 @@
 import search from './search.js';
+import settingsService from './settings.js';
+
+
+var searchPrefixes = {};
 
 export default {
     init : function (){
@@ -7,6 +11,12 @@ export default {
 	browser.omnibox.setDefaultSuggestion(
 	    { "description": "CHOP CHOP'S SEARCH SEARCH - type at least 3 characters" }
 	);
+	settingsService.get().then(function(settings){
+	    searchPrefixes = settings.prefixes;
+	});
+    },
+    setPrefixes: function(prefixes){
+	searchPrefixes = prefixes;
     }
 
 };
@@ -46,11 +56,26 @@ function emptySuggestion(){
     };
 }
 function srcInputListener(text, suggest){
-    if ( text.length < 3 ) {
+    let query = text;
+    let type = "all";
+    if ( text.startsWith(searchPrefixes.historyPrefix + " ")){
+	query = text.slice(searchPrefixes.historyPrefix.length + 1 );
+	type = "history";
+    }
+    else if ( text.startsWith(searchPrefixes.tabPrefix + " ") ){
+	query = text.slice(searchPrefixes.tabPrefix.length + 1 );
+	type = "tab";
+    }
+    else if(text.startsWith(searchPrefixes.bookmarkPrefix + " ")){
+	query = text.slice(searchPrefixes.bookmarkPrefix.length + 1);
+	type = "bookmark";
+    }
+    
+    if ( query.length < 3 ) {
 	suggest(emptySuggestion());
 	return ;
     }
-    search.queryToPages(text).then(function(results){
+    search.queryToPages(query, type).then(function(results){
 	let suggestions = results.map(function (page) {
 	    return {
 		"content": page.url,

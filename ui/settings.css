@@ -36,3 +36,16 @@ h2{
 li{
     margin-bottom: 2em;
 }
+/*#prefixSelection li{
+    margin-bottom: 0.75em;
+}*/
+
+.prefixDiv{
+    margin-top: 1.25em;
+    margin-bottom: 1.25em;
+}
+
+.textInput{
+    position: absolute;
+    right: 30%;
+}

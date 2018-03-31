@@ -1,9 +1,6 @@
 import stringUtils from './stringUtils.js';
 import storage from './storageDao.js';
 
-//var index = new Map();
-//var bmMap = new Map();
-
 export default{
     /*
       Index pages 
@@ -127,33 +124,32 @@ async function remove( pageId ) {
 	}
 */
 async function indexPages( pages ){
-    pages.forEach(async function (v,k ){
-	let hasPage = await storage.has("page", k);
-	// store page in pageId - page index
-	// update if already there (updates visit count and last visit date
-	// on history items)
-	await storage.set("page", k, v);
+    for (let p of pages ){
+	let page = p[1];
+	let hasPage = await storage.has("page", page.id);
+	await storage.set("page", page.id, page);
 	if ( hasPage === false ){
 	    // generate search index tokens
 	    let prefixedIndexes = [];
-	    prefixedIndexes = stringUtils.toIndexable(v.title);
-	    prefixedIndexes = prefixedIndexes.concat(stringUtils.urlToIndexable(v.url));
+	    prefixedIndexes = stringUtils.toIndexable(page.title);
+	    prefixedIndexes = prefixedIndexes.concat(stringUtils.urlToIndexable(page.url));
 	    prefixedIndexes = Array.from(new Set(prefixedIndexes)); //remove dupes
 	    // update search index (search token - array [page id])
 	    for ( let t of prefixedIndexes ) {
 		let hasToken = await storage.has("index",t);
 		if ( hasToken === true ){
 		    let ids = await storage.get("index", t);
-		    ids.push(k);
+		    ids.push(page.id);
 		    await storage.set("index", t, ids);
 		}
 		else{
-		    let keyArray = [""+k];
+		    let keyArray = [""+page.id];
 		    await storage.set("index", t, keyArray);
 		}
+
 	    }
 	}
-    });
+    }
 }
 		     
 /*

@@ -1,37 +1,56 @@
 import stringUtils from './stringUtils.js';
 import index from './index.js';
 
-var levenshteinTreshold = 0.85;
+var levenshteinTreshold = 0.65;
 
 //TODO : fix this, have it make sense
 var scoreMults = {
     "history": 1.2,
-    "bookmark": 1.5
+    "bookmark": 1.5,
+    "tab": 2
 };
 
 
 export default {
-    queryToPages: async function( query ){
+    queryToPages: async function( query, type ){
 	let srcIndices = stringUtils.toSearchable(query);
 	let pageIds = await index.getPageIds(srcIndices);
-	let pages = await index.getPages(pageIds);	
+	let pages = await index.getPages(pageIds);
 	pages = Array.from(new Set(pages)); //remove dupes
-	console.log("unsorted result pages :");
-	console.log(pages);
+	pages = filterPagesByType(pages, type);
 	pages = sortPages(pages, query);
 	return pages;
     }
 };
 
+function filterPagesByType( pages , type ){
+    switch ( type ){
+    case "all":{
+	return pages;
+	break;
+    }
+    case "history":{
+	return pages.filter(page=> page.type === "history");
+	break;
+    }
+    case "bookmark":{
+	return pages.filter(page=> page.type === "bookmark");
+	break;
+    }
+    case "tab":{
+	return pages.filter(page=> page.type === "tab");
+	break;
+    }
+    }
+    return pages;
+}
+
 function sortPages(pageResults, query){
-    console.log("******** QUERY ********");
-    console.log(query);
     let compQuery = stringUtils.toComparable(query);
     //let scoredPages = [];
     // url - array of scored pages
     let urlScoredPageMap = new Map();
 
-    
     pageResults.forEach(function (page){
 	let compPage = stringUtils.toComparable(page.title);
 
@@ -69,8 +88,6 @@ function sortPages(pageResults, query){
     
     //scoredPages = scoredPages.filter(r => r.score > 0);
     scoredPages.sort(compareScoredPages);
-    console.log("scored pages");
-    console.log(scoredPages);
     let result = scoredPages.map(function ( sb ){
 	return sb.item;
     });
@@ -130,6 +147,5 @@ function compareScoredPages(scoredPageA, scoredPageB ){ // TODO : take type of p
     }
     else{
 	return 0;
-    }
-	
+    }	
 }

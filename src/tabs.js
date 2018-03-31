@@ -25,9 +25,7 @@ function handleTabCreated( tab ){
 	if (! filterTabs (parsedTab)){
 	    return;
 	}
-	toIndex.set("tab_"+parsedTab.id, parsedTab);
-	console.log("index tab");
-	console.log(toIndex);
+	toIndex.set(parsedTab.id, parsedTab);
 	index.index(toIndex);
     });
 }
@@ -42,9 +40,7 @@ function handleTabUpdated(tabId, updatedInfo, tab){
 	if (! filterTabs (parsedTab)){
 	    return;
 	}
-	toIndex.set("tab_"+parsedTab.id, parsedTab);
-	console.log("update tab");
-	console.log(toIndex);
+	toIndex.set(parsedTab.id, parsedTab);
 	index.index(toIndex);
     });
 }
@@ -65,11 +61,8 @@ async function loadTabs(){
     let tabArray = await browser.tabs.query({});
     //perse relevant stuff, remove unusable tabs
     tabArray = tabArray.map( parseTab ).filter(filterTabs);
-    console.log("tabs !");
-    console.log(tabArray);
-    
     for (let tab of tabArray ){
-	toIndex.set("tab_"+tab.id, tab);
+	toIndex.set(tab.id, tab);
     }
     return toIndex;
 }
@@ -88,7 +81,7 @@ function parseTab( rawTab ){
     return{
 	"title": rawTab.title,
 	"url": rawTab.url,
-	"id": rawTab.id,
+	"id": "tab_"+rawTab.id,
 	"type": "tab",
 	"date": rawTab.lastAccessed
     };

@@ -13,6 +13,7 @@ import index from './index.js';
 import bookmarks from './bookmarks.js';
 import history from './history.js';
 import tabs from './tabs.js';
+import omnibox from './omnibox.js';
 
 export default{
 
@@ -47,7 +48,12 @@ async function getSettings(){
 	    "indexBm" : true,
 	    "indexHistory": true,
 	    "indexTabs": true,
-	    "historyDuration": "forever"
+	    "historyDuration": "forever",
+	    "prefixes": {
+		"bookmarkPrefix": ":bkm",
+		"tabPrefix": ":tab",
+		"historyPrefix": ":hist"
+	    }
 	};
 	return defaultSettings;
     }
@@ -115,6 +121,9 @@ function setSettings(settings){
 		});
 		
 	    }
+	    if ( oldSettings.prefixes !== settings.prefixes){
+		omnibox.setPrefixes(settings.prefixes);
+	    } 
 	});
 	 
     });

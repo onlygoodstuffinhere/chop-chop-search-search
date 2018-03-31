@@ -44,7 +44,6 @@ export default {
 	browser.bookmarks.onRemoved.addListener(disindexBm);
 	//browser.bookmarks.onChanged.addListener(); //TODO 
     }
-
 };
 
 /*
@@ -84,6 +83,7 @@ function indexBm(id, bookmark){
 	    let bmMap = new Map();
 	    bmMap.set(bm.id,bm);
 	    index.index(bmMap);
+	    console.log("indexed bookmarks");
 	}	
     });
 }

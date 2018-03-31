@@ -11,14 +11,14 @@
 
 <body>
   <h2>Ez Search extension settings</h2>
-  <p>Bookmarks and browsing history made available through an easy to use typo tolerant search bar. All of this is done localy, your data never leaves the browser.</p>
+  <p>Search for pages in bookmarks, browsing history and active tabs by typing directly in the address bar. All of this is done localy, your data never leaves the browser.</p>
   
   
   <form id="settingsForm">
     <h4>Data to Index</h4>
     <ul><li>
     <div id="historyFormDiv">
-      <div class="formQuestion">What information do you want to be searchable ?</div>
+      <div class="formQuestion">What information should be searchable ?</div>
       <div id="indexBookmarksDiv">
 	<input type="checkbox" id="indexBookmarks" name="indexBookmarks" value="Index Bookmarks">
 	<label for="indexBookmarks">Bookmarks</label>
@@ -53,7 +53,24 @@
 	</div>
       </div>
       </div>
-      </li></ul>
+    </li>
+    </ul>
+    <h4>Customize search prefixes</h4>
+    <ul id="prefixSelection"><li>
+    <div class="formQuestion">Prefix queries with these to select results from a specific source.</div>
+    <div id="bookmarkPrefixDiv" class="prefixDiv">
+      <label for="bookmarkPrefix">Bookmark prefix :</label>
+      <input type="text" id="bookmarkPrefix" name="bookmarkPrefix" value=":bkm" class="textInput">
+    </div>
+    <div id="tabPrefixDiv" class="prefixDiv">
+      <label for="tabPrefix">Active tabs prefix :</label>
+      <input type="text" id="tabPrefix" name="tabPrefix" value=":tab" class="textInput">
+    </div>
+    <div id="historyPrefixDiv" class="prefixDiv">
+      <label for="historyPrefix">Browsing history prefix :</label>
+      <input type="text" id="historyPrefix" name="historyPrefix" value=":hist" class="textInput">
+    </div>
+</li></ul>
     <div id="submitDiv">
       <input type="submit" label="Apply" name="Apply" value="Apply" id="submitButton">
     </div>
