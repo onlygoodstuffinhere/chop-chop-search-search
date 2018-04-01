@@ -1,0 +1,84 @@
+{
+    "extensionDescription":{
+	"message": "Retrouvez des pages visitées précédemment en cherchant dans la barre d'adresse.",
+	"description": "Extension description"
+    },
+    "settingsPageMainTitle":
+    {
+	"message": "Chop Chop Search Search - Paramètres de l'Extension",
+	"description": "Title header in settings page"
+    },
+    "settingsPageIntoduction":
+    {
+	"message": "Cherchez des pages dans les marques pages, l'historique de navigation et les onglets ouverts en tapant dans la barre d'adresse. La recherche est locale, ces informations ne quittent pas votre navigateur. ",
+	"description": "Recap of what the extension does"
+    },
+    "settingsPageDataTitle":{
+	"message": "Données à Indexer",
+	"description": "Title of data selection settings category"
+    },
+    "settingsPageDataSourceQuestion":{
+	"message": "A quels types d'information voulez-vous accéder ?",
+	"description": "Data source selection form question"
+    },
+    "settingsPageDataSourceBookmarkLabel":{
+	"message" : "Marques pages",
+	"description": "bookmark data source selection label"
+    },
+    "settingsPageDataSourceTabsLabel":{
+	"message" : "Onglets",
+	"description": "tab data source selection label"
+    },
+    "settingsPageDataSourceHistoryLabel":{
+	"message" : "Historique de navigation",
+	"description": "history data source selection label"
+    },
+    "settingsPageBrowsingHistoryQuestion":{
+	"message" : "Restreindre l'historique de navigation utilisé aux pages visitées pendant :",
+	"description": "History duration form question"
+    },
+    "settingsPageBrowsingHistorySessionLabel":{
+	"message" : "La session actuelle",
+	"description": "session history duration selection label"
+    },
+    "settingsPageBrowsingHistory24hLabel":{
+	"message" : "Les dernières 24 heures",
+	"description": "24h history duration selection label"
+    },
+    "settingsPageBrowsingHistory7dLabel":{
+	"message" : "Les 7 derniers jours",
+	"description": "7d history duration selection label"
+    },
+    "settingsPageBrowsingHistoryForeverLabel":{
+	"message" : "Tout l'historique de navigation",
+	"description": "forever hisory duration selection label"
+    },
+    "settingsPagePrefixTitle":{
+	"message" : "Paramétrage des Préfixes de Recherche",
+	"description": "Title of prefix definition settings category"
+    },
+    "settingsPagePrefixQuestion":{
+	"message" : "Préfixez vos recherches par ces mots-clés pour restreindre les résultats à une source particulière.",
+	"description": "Prefix selection form question"
+    },
+    "settingsPagePrefixBookmarkLabel":{
+	"message" : "Marques pages :",
+	"description": "Prefix selection bookmark label"
+    },
+    "settingsPagePrefixTabLabel":{
+	"message" : "Onglet ouverts :",
+	"description": "Prefix selection tab label"
+    },
+    "settingsPagePrefixHistoryLabel":{
+	"message" : "Historique de navigation :",
+	"description": "Prefix selection history label"
+    },
+    "settingsPageSubmitButton":{
+	"message" : "Appliquer",
+	"description": "Settings page submit button label"
+    },
+    "omniboxFillerMessage":{
+	"message" : "Désolé, aucun résultat. Saisissez au moins 3 charactères.",
+	"description": "Address bar filler result"
+    }
+}

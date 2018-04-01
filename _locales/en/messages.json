@@ -1,0 +1,84 @@
+{
+    "extensionDescription":{
+	"message": "Search for previously browsed pages in the address bar.",
+	"description": "Extension description"
+    },
+    "settingsPageMainTitle":
+    {
+	"message": "Chop Chop Search Search - Extension Settings",
+	"description": "Title header in settings page"
+    },
+    "settingsPageIntoduction":
+    {
+	"message": "Search for pages in bookmarks, browsing history and active tabs by typing directly in the address bar. All of this is done localy, these informations never leave the browser.",
+	"description": "Recap of what the extension does"
+    },
+    "settingsPageDataTitle":{
+	"message": "Data to Index",
+	"description": "Title of data selection settings category"
+    },
+    "settingsPageDataSourceQuestion":{
+	"message": "What information should be searchable ?",
+	"description": "Data source selection form question"
+    },
+    "settingsPageDataSourceBookmarkLabel":{
+	"message" : "Bookmarks",
+	"description": "bookmark data source selection label"
+    },
+    "settingsPageDataSourceTabsLabel":{
+	"message" : "Tabs",
+	"description": "tab data source selection label"
+    },
+    "settingsPageDataSourceHistoryLabel":{
+	"message" : "Browsing history",
+	"description": "history data source selection label"
+    },
+    "settingsPageBrowsingHistoryQuestion":{
+	"message" : "Restrict browsing history used to :",
+	"description": "History duration form question"
+    },
+    "settingsPageBrowsingHistorySessionLabel":{
+	"message" : "Current session",
+	"description": "session history duration selection label"
+    },
+    "settingsPageBrowsingHistory24hLabel":{
+	"message" : "Last 24 hours",
+	"description": "24h history duration selection label"
+    },
+    "settingsPageBrowsingHistory7dLabel":{
+	"message" : "Last 7 days",
+	"description": "7d history duration selection label"
+    },
+    "settingsPageBrowsingHistoryForeverLabel":{
+	"message" : "All available history",
+	"description": "forever hisory duration selection label"
+    },
+    "settingsPagePrefixTitle":{
+	"message" : "Customize Search Prefixes",
+	"description": "Title of prefix definition settings category"
+    },
+    "settingsPagePrefixQuestion":{
+	"message" : "Prefix search queries with these keywords to select results from a specific source.",
+	"description": "Prefix selection form question"
+    },
+    "settingsPagePrefixBookmarkLabel":{
+	"message" : "Bookmark prefix :",
+	"description": "Prefix selection bookmark label"
+    },
+    "settingsPagePrefixTabLabel":{
+	"message" : "Active tabs prefix :",
+	"description": "Prefix selection tab label"
+    },
+    "settingsPagePrefixHistoryLabel":{
+	"message" : "Browsing history prefix :",
+	"description": "Prefix selection history label"
+    },
+    "settingsPageSubmitButton":{
+	"message" : "Apply",
+	"description": "Settings page submit button label"
+    },
+    "omniboxFillerMessage":{
+	"message" : "Sorry, no results have been found. Type at least 3 characters.",
+	"description": "Address bar filler result"
+    }
+}

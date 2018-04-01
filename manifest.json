@@ -1,20 +1,22 @@
 {
   "manifest_version": 2,
-  "name": "cc search",
-  "version": "0.0.1",
-  "description": "Chop chop's search search",
+  "name": "Chop Chop Search Search",
+  "version": "0.1.0",
+  "default_locale": "en",
+  "description": "__MSG_extensionDescription__",
+    "homepage_url": ""  
     "icons": {
 	"16": "pics/icon-16x16.png",
 	"48": "pics/icon-48x48.png"
     },
     "applications": {
 	"gecko": {
-	    "id": "test@ez-search"
+	    "id": "0.1.0@cc-ss"
 	}
     },
   "permissions": ["bookmarks", "storage", "history", "tabs"],
   "background": {
-      "scripts": ["ezsrc.js"]
+      "scripts": ["chop-chop-search-search.js"]
   },  
   "omnibox": {
       "keyword": "cc"

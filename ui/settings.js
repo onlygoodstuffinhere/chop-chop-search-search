@@ -16,6 +16,7 @@
 
 
 document.addEventListener("DOMContentLoaded", function(event) {
+    loadMessages();
     loadSettings();
     document.getElementById("submitButton").addEventListener("click", saveSettings);
     document.getElementById("indexHistory").addEventListener("change", toggleHistorySettings);
@@ -163,4 +164,27 @@ function toggleBookmarksSettings(){
 
 function toggleTabsSettings(){
     document.getElementById("tabPrefix").disabled = ! document.getElementById("tabPrefix").disabled;
+}
+
+
+function loadMessages(){
+    document.getElementById("mainTitle").innerHTML = browser.i18n.getMessage("settingsPageMainTitle");
+    document.getElementById("abstract").innerHTML = browser.i18n.getMessage("settingsPageIntoduction");
+    document.getElementById("dataTitle").innerHTML = browser.i18n.getMessage("settingsPageDataTitle");
+    document.getElementById("dataSourceQuestion").innerHTML = browser.i18n.getMessage("settingsPageDataSourceQuestion");
+    document.getElementById("indexBookmarksLabel").innerHTML = browser.i18n.getMessage("settingsPageDataSourceBookmarkLabel");
+    document.getElementById("indexTabsLabel").innerHTML = browser.i18n.getMessage("settingsPageDataSourceTabsLabel");
+    document.getElementById("indexHistoryLabel").innerHTML = browser.i18n.getMessage("settingsPageDataSourceHistoryLabel");
+    document.getElementById("historyDurationQuestion").innerHTML = browser.i18n.getMessage("settingsPageBrowsingHistoryQuestion");
+    document.getElementById("historyDurationSessionLabel").innerHTML = browser.i18n.getMessage("settingsPageBrowsingHistorySessionLabel");
+    document.getElementById("historyDuration24hLabel").innerHTML = browser.i18n.getMessage("settingsPageBrowsingHistory24hLabel");
+    document.getElementById("historyDuration7dLabel").innerHTML = browser.i18n.getMessage("settingsPageBrowsingHistory7dLabel");
+    document.getElementById("historyDurationForeverLabel").innerHTML = browser.i18n.getMessage("settingsPageBrowsingHistoryForeverLabel");
+    document.getElementById("prefixTitle").innerHTML = browser.i18n.getMessage("settingsPagePrefixTitle");
+    document.getElementById("prefixQuestion").innerHTML = browser.i18n.getMessage("settingsPagePrefixQuestion");
+    document.getElementById("prefixBookmarksLabel").innerHTML = browser.i18n.getMessage("settingsPagePrefixBookmarkLabel");
+    document.getElementById("prefixTabsLabel").innerHTML = browser.i18n.getMessage("settingsPagePrefixTabLabel");
+    document.getElementById("prefixHistoryLabel").innerHTML = browser.i18n.getMessage("settingsPagePrefixHistoryLabel");
+    document.getElementById("submitButton").value = browser.i18n.getMessage("settingsPageSubmitButton");
+
 }

@@ -95,7 +95,7 @@ function urlTokenizer(urlStr){
 
     //remove subdomain and tlds, handles weirdo tlds
     let parsedDomain = parseDomain(domain); 
-    domain = parsedDomain.domain;
+    domain = ( parsedDomain && parsedDomain.domain ) ? parsedDomain.domain : domain;
 
     //remove file extension
     let urlArray = path.split(".");

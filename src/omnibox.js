@@ -1,7 +1,7 @@
 import search from './search.js';
 import settingsService from './settings.js';
 
-
+var fillerResultMsg = browser.i18n.getMessage("omniboxFillerMessage");
 var searchPrefixes = {};
 
 export default {
@@ -9,7 +9,7 @@ export default {
 	browser.omnibox.onInputChanged.addListener(srcInputListener);
 	browser.omnibox.onInputEntered.addListener(inputEntered);
 	browser.omnibox.setDefaultSuggestion(
-	    { "description": "CHOP CHOP'S SEARCH SEARCH - type at least 3 characters" }
+	    { "description": fillerResultMsg }
 	);
 	settingsService.get().then(function(settings){
 	    searchPrefixes = settings.prefixes;
@@ -52,7 +52,7 @@ function openTab ( url, active ){
 function emptySuggestion(){
     return {
 	"content": "",
-	"description": "Sry, no results. Please type at lest 3 characters."
+	"description": fillerResultMsg
     };
 }
 function srcInputListener(text, suggest){

@@ -4,7 +4,7 @@ const copyWebpack = require('copy-webpack-plugin');
 module.exports = {
   entry: './src/main.js',
   output: {
-    filename: 'ezsrc.js'
+    filename: 'chop-chop-search-search.js'
   },
   plugins: [
         new copyWebpack([
@@ -12,7 +12,8 @@ module.exports = {
 	    { from: 'ui/*.css'},
 	    { from: 'ui/*.html'},
 	    { from: 'manifest.json'},
-	    { from: 'pics/*'}
+	    { from: 'pics/*'},
+	    { from: '_locales/*/*.json'}
         ])
     ]
   
