@@ -10,13 +10,14 @@ import tabs from './tabs.js';
 //1. setup stuf on install
 
 browser.runtime.onInstalled.addListener(loadBrowsingData);
-browser.runtime.onStartup.addListener(onStart);
+browser.runtime.onStartup.addListener(loadBrowsingData);
 //browser.runtime.onSuspend.addListener(function(){storage.init();});
 
 
 //index.disindexByType("tab"); //enable this once we start to persist storage
 
 function loadBrowsingData(){
+    storage.init();
     //1.init settings first
     settings.init();
 

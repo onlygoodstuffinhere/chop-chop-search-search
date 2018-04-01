@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "blueimp-md5": "^2.10.0",
-    "double-metaphone": "^1.02",
+    "double-metaphone": "^1.0.2",
     "fast-levenshtein": "^2.0.6",
     "jshint-loader": "^0.8.4",
     "parse-domain": "^2.0.0"
