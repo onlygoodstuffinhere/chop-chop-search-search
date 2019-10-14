@@ -5,15 +5,15 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-      "build": "webpack"
+    "build": "webpack"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "copy-webpack-plugin": "^4.5.1",
-    "webpack": "^4.1.1",
-    "webpack-cli": "^2.0.12"
+    "copy-webpack-plugin": "4.5.1",
+    "webpack": "4.1.1",
+    "webpack-cli": "2.0.12"
   },
   "dependencies": {
     "blueimp-md5": "^2.10.0",
